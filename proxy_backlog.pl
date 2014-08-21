@@ -2,9 +2,9 @@
 use Irssi;
 use Irssi::TextUI;
 
-$VERSION = "0.0.0";
+$VERSION = "0.0.1";
 %IRSSI = (
-  authors         => "Wouter Coekaets, Lauri Härsilä",
+  authors         => "Wouter Coekaets, Lauri HÃ¤rsilÃ¤",
   contact         => "coekie@irssi.org, murgo@iki.fi",
   name            => "proxy_backlog",
   url             => "https://github.com/murgo/proxy_backlog",
@@ -44,5 +44,5 @@ Irssi::signal_add('message irc own_ctcp', sub {
 
 Irssi::signal_add('proxy client connected', sub {
   my ($client) = @_;
-  Irssi::timeout_add_once(500, \&sendbacklog, $client->{server});
+  Irssi::timeout_add_once(2000, \&sendbacklog, $client->{server});
 });
