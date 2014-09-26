@@ -18,6 +18,8 @@ sub sendbacklog {
   Irssi::print("Sending backlog to proxy client for " . $server->{'tag'});
   Irssi::signal_add_first('print text', 'stop_sig');
   Irssi::signal_emit('server incoming', $server,':proxy NOTICE * :Sending backlog');
+  my $autolog = Irssi::settings_get_bool("autolog");
+  Irssi::Server->command("set autolog off");
   foreach my $channel ($server->channels) {
     my $window = $server->window_find_item($channel->{'name'});
     for (my $line = $window->view->get_lines; defined($line); $line = $line->next) {
@@ -26,6 +28,7 @@ sub sendbacklog {
       Irssi::signal_emit('server incoming', $server,':proxy NOTICE ' . $channel->{'name'} .' :' . $text);
     }
   }
+  Irssi::Server->command("set autolog " . ($autolog ? "on" : "off"));
   Irssi::signal_emit('server incoming', $server,':proxy NOTICE * :End of backlog');
   Irssi::signal_remove('print text', 'stop_sig');
 }
